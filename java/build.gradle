@@ -1,0 +1,174 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+import de.undercouch.gradle.tasks.download.Download
+
+
+archivesBaseName = 'sw-public-api-client-java'
+group = 'com.stillwaterinsurance'
+version = '0.0.4'
+
+description = """Stillwater Public API Java Client"""
+
+//development
+project.ext.base = "http://api-qua.stillwaterinsurance.com"
+//project.ext.base = "http://localhost:8080"
+
+//production
+//project.ext.base = "http://api.stillwaterinsurance.com"
+
+project.ext.homeQuote1_0Res = 'src/main/resources/download/home-quote-1_0'
+project.ext.homeQuote1_0Src = 'src/main/java/com/stillwaterinsurance/api/client/acord/homeQuoteV1_0'
+project.ext.homeQuote1_0Pkg = 'com.stillwaterinsurance.api.client.acord.homeQuoteV1_0'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+
+repositories {
+	mavenCentral()
+}
+
+
+//dont wait 24 hours to fetch the latest "changing" and "dynamic" jars
+configurations{
+    jaxb
+
+    all {
+        resolutionStrategy{
+        	cacheChangingModulesFor 0, 'seconds'
+        	cacheDynamicVersionsFor 0, 'seconds'
+        }
+    }
+}
+
+buildscript {
+    repositories {
+        //required for download
+        mavenCentral()
+    }
+    dependencies {
+        //required for download
+        classpath 'de.undercouch:gradle-download-task:1.0'
+    }
+}
+// In this section you declare the dependencies for your production and test code
+dependencies {
+    
+    jaxb "com.sun.xml.bind:jaxb-xjc:2.2.4-1"
+    
+	compile 'joda-time:joda-time:2.3'
+	
+	//HttpClient
+	compile "commons-httpclient:commons-httpclient:3.1"
+	compile 'org.apache.httpcomponents:httpcore:4.3.2'
+	compile 'org.apache.httpcomponents:httpclient:4.3.2'
+	
+	
+    compile ("log4j:log4j:1.2.17"){
+    	 exclude group:"javax.jms", module:"jms"
+         exclude group:"com.sun.jdmk", module:"jmxtools"
+         exclude group:"com.sun.jmx", module:"jmxri"
+    }
+    
+    testCompile "junit:junit:4.11"
+
+}
+
+
+//generate javadoc and sources jars
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+eclipse {
+	classpath {
+	
+	    //default settings for downloading sources and Javadoc:
+	    downloadSources = true
+	    downloadJavadoc = true
+	    
+  	}
+    project {
+        //manually update the .project file to exclude .git and .gradle folders from search results
+        file {
+        	name = 'public-api-client-java'
+        	
+            withXml { xmlProvider ->
+                Node project = xmlProvider.asNode()
+                Node filteredResources = project.appendNode('filteredResources')
+                Node filter = filteredResources.appendNode('filter')
+                filter.appendNode('id', 1384280760821) 
+                filter.appendNode('name', '')
+                filter.appendNode('type', 10)
+                Node matcher = filter.appendNode('matcher')
+                matcher.appendNode('id', 'org.eclipse.ui.ide.multiFilter')
+                matcher.appendNode('arguments', '1.0-name-matches-false-false-.git')
+                
+                filter = filteredResources.appendNode('filter')
+                filter.appendNode('id', 1384280760886) 
+                filter.appendNode('name', '')
+                filter.appendNode('type', 10)
+                matcher = filter.appendNode('matcher')
+                matcher.appendNode('id', 'org.eclipse.ui.ide.multiFilter')
+                matcher.appendNode('arguments', '1.0-name-matches-false-false-.gradle')
+            }
+        }
+    }
+}
+
+
+task initDirs << {
+	
+	delete 'src/main/resources/download'
+	delete 'src/main/java/com/stillwaterinsurance/api/client/acord'
+	
+	file(project.ext.homeQuote1_0Res).mkdirs()
+	
+}
+
+task mydownload(type: Download, dependsOn: 'initDirs') {
+    src([
+        project.ext.base + '/api/schemas/home/quote/v1.0/home-quote-1.0.xsd',
+        project.ext.base + '/api/schemas/home/quote/v1.0/home-quote-1.0-bindings-jaxb.xml',
+        project.ext.base + '/api/schemas/home/quote/v1.0/xml-ns.xsd',
+        project.ext.base + '/api/schemas/home/quote/v1.0/XMLSchema.dtd',
+        project.ext.base + '/api/schemas/home/quote/v1.0/datatypes.dtd'
+    ])
+    dest project.ext.homeQuote1_0Res
+}
+
+
+task jaxb(dependsOn: mydownload){
+    description 'Converts xsds to classes'
+    
+    doLast {
+ 
+        ant.taskdef(name: 'xjc', classname: 'com.sun.tools.xjc.XJCTask', classpath: configurations.jaxb.asPath)
+        ant.jaxbTargetDir = 'src/main/java'
+        
+        ant.xjc(destdir: 'src/main/java', package: project.ext.homeQuote1_0Pkg, removeOldOutput:'yes') {
+
+                schema(dir: project.ext.homeQuote1_0Res, includes: 'home-quote-1.0.xsd')
+                binding(dir: project.ext.homeQuote1_0Res, includes: 'home-quote-1.0-bindings-jaxb.xml')
+        }
+        
+    }
+}
+ 
+task generateSources(dependsOn: jaxb) {
+    description 'generates the resources defined by the external xsd\'s'
+}
+
+compileJava.dependsOn generateSources

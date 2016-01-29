@@ -1,0 +1,123 @@
+<ACORD xmlns="http://www.ACORD.org/standards/PC_Surety/ACORD1/xml/Stillwater">
+  <SignonRq>
+    <SignonTransport>
+      <SignonRoleCd>Agent</SignonRoleCd>
+      <CustId>
+		<!-- SPName is profit area which will be provided by Stillwater Insurance -->
+        <SPName>to-be-provided-by-stillwater</SPName>
+        <!-- CustLoginId and CustPermId will be provided by Stillwater Insurance
+        	PRD Environment: This id should be the Stillwater Insurance provided id of the licensed agent performing the quote request.
+            QUA Environment: Stillwater provided test ID of "xmlcattest".
+		 -->
+		<CustPermId>xmlcattest</CustPermId>
+        <CustLoginId>xmlcattest</CustLoginId>
+      </CustId>
+    </SignonTransport>
+	<!-- now -->
+    <ClientDt>DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD</ClientDt>
+    <CustLangPref>ENG</CustLangPref>
+    <ClientApp>
+      <Org>Internet</Org>
+	  <!-- Name is profit area which will be provided by Stillwater Insurance -->
+      <Name>to-be-provided-by-stillwater</Name>
+      <Version>1.0</Version>
+    </ClientApp>
+  </SignonRq>
+  <InsuranceSvcRq>
+	<!-- The following field is required to be unique for every service request, format is 8-4-4-4-12 hexadecimal.
+  	If 00000000-0000-0000-0000-000000000000 is used, then we will generate a RqUID for you. -->    
+    <RqUID>00000000-0000-0000-0000-000000000000</RqUID>
+    <HomePolicyQuoteInqRq>
+	  <!-- Use the same value as the RqUID above -->
+      <RqUID>00000000-0000-0000-0000-000000000000</RqUID>
+	  <!-- now -->
+      <TransactionRequestDt>DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD</TransactionRequestDt>
+      <CurCd>USD</CurCd>
+      <InsuredOrPrincipal>
+        <GeneralPartyInfo>
+          <NameInfo>
+            <PersonName>
+              <Surname>Public</Surname>
+              <GivenName>John</GivenName>
+              <OtherGivenName>Q</OtherGivenName>
+            </PersonName>
+          </NameInfo>
+          <Addr>
+            <AddrTypeCd>PhysicalRisk</AddrTypeCd>
+            <Addr1>353 Portland Cir</Addr1>
+            <City>HUNTINGTON BEACH</City>
+            <StateProvCd>CA</StateProvCd>
+            <PostalCode>92648</PostalCode>
+          </Addr>
+        </GeneralPartyInfo>
+        <InsuredOrPrincipalInfo>
+          <InsuredOrPrincipalRoleCd>FNI</InsuredOrPrincipalRoleCd>
+          <PersonInfo>
+            <BirthDt>1972-03-31</BirthDt>
+          </PersonInfo>
+        </InsuredOrPrincipalInfo>
+      </InsuredOrPrincipal>
+      <PersPolicy>
+        <LOBCd>HOME</LOBCd>
+        <ContractTerm>
+		  <!-- sometime between now and 30 days -->
+          <EffectiveDt>DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD</EffectiveDt>
+		  <!-- usually 1 year from EffectiveDt -->
+          <ExpirationDt>NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN</ExpirationDt>
+          <DurationPeriod>
+            <NumUnits>12</NumUnits>
+            <UnitMeasurementCd>MO</UnitMeasurementCd>
+          </DurationPeriod>
+        </ContractTerm>
+        <PersApplicationInfo>
+          <InsuredOrPrincipal/>
+          <ResidenceOwnedRentedCd>RENTD</ResidenceOwnedRentedCd>
+        </PersApplicationInfo>
+      </PersPolicy>
+      <Location id="LOC1">
+        <ItemIdInfo>
+          <AgencyId>12345</AgencyId>
+        </ItemIdInfo>
+        <Addr>
+          <AddrTypeCd>PhysicalRisk</AddrTypeCd>
+          <Addr1>353 Portland Cir</Addr1>
+          <City>HUNTINGTON BEACH</City>
+          <StateProvCd>CA</StateProvCd>
+          <PostalCode>92648</PostalCode>
+        </Addr>
+      </Location>
+      <HomeLineBusiness>
+        <LOBCd>HOME</LOBCd>
+        <Dwell LocationRef="LOC1" id="DWE1">
+          <PolicyTypeCd>04</PolicyTypeCd>
+          <Construction>
+            <ConstructionCd>F</ConstructionCd>
+          </Construction>
+          <DwellOccupancy>
+          	<YearOccupancy>2010</YearOccupancy>
+            <ResidenceTypeCd>APT</ResidenceTypeCd>
+            <OccupancyTypeCd>TENAN</OccupancyTypeCd>
+          </DwellOccupancy>
+          <BldgProtection>
+            <FireExtinguisherInd>1</FireExtinguisherInd>
+            <ProtectionDeviceFireCd>FIRE</ProtectionDeviceFireCd>
+            <ProtectionDeviceSmokeCd>DE</ProtectionDeviceSmokeCd>
+            <DoorLockCd>DEADB</DoorLockCd>
+          </BldgProtection>
+          <DwellInspectionValuation>
+            <NumFamilies>1</NumFamilies>
+            <NumStoriesInDwellingCd>1</NumStoriesInDwellingCd>
+          </DwellInspectionValuation>
+          <Coverage>
+            <CoverageCd>RCC</CoverageCd>
+            <Limit>
+              <FormatCurrencyAmt>
+                <Amt>30000</Amt>
+              </FormatCurrencyAmt>
+            </Limit>
+          </Coverage>
+        </Dwell>
+      </HomeLineBusiness>
+    </HomePolicyQuoteInqRq>
+  </InsuranceSvcRq>
+</ACORD>

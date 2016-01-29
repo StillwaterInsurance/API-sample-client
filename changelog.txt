@@ -1,0 +1,16 @@
+
+v0.0.3 - July 9 2014 ----------------------------------------------------------
+
+	1) dos2unix on all files in shell dir
+
+v0.0.2 - April 7 2014 ---------------------------------------------------------
+
+	1) added H6 example to shell client
+	2) added H6 example to java client
+
+v0.0.1 - April 4 2014 ---------------------------------------------------------
+
+	initial release includes:
+	1) shell sample client with H3 and H4 requests
+	2) java sample client with H3 and H4 requests
+	3) schema slicer with docs

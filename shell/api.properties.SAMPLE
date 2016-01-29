@@ -1,0 +1,10 @@
+
+# General config  #############################################################
+#HOST="http://localhost:8080/api/services/rest"
+HOST="https://api-qua.stillwaterinsurance.com/api/services/rest"
+#HOST="https://api.stillwaterinsurance.com/api/services/rest"
+
+ACCOUNTNAME=someusername
+TOKEN=sometoken
+
+

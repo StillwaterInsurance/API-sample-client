@@ -1,0 +1,22 @@
+
+# 1) download and install gradle version 2.0+
+
+# 2) download and install java 1.6+
+
+# 3) copy src/main/resources/client.properties-SAMPLE to src/main/resources/client.properties
+
+# 4) update the accountname and token properties in the new client.properties file
+
+# 5) generate classes from hosted XSD
+gradle clean jaxb
+
+# 6) build everything
+gradle clean install
+
+# 7) read over the unit tests, then run them
+gradle test
+
+# 8) Optionally, if you want to import the java sub project into eclipse, run this first:
+cd <public-api-client>/java
+gradle cleanEclipse eclipse
+

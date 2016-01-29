@@ -1,0 +1,6 @@
+
+BASE_URL=https://api-qua.stillwaterinsurance.com/api/services/rest
+AUTH_SCOPE=api-qua.stillwaterinsurance.com
+
+ACCOUNT_NAME=someaccountname
+TOKEN=sometoken

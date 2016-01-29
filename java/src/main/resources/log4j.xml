@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} [%-5p] (%C.java:%L) - %m%n"/>
+        </layout>
+    </appender>
+  
+  <appender name="miscFile" class="org.apache.log4j.RollingFileAppender">
+    <param name="File" value="build/api-misc.log"/>
+    <param name="MaxFileSize" value="1MB"/>
+    <param name="MaxBackupIndex" value="5"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} [%-5p] (%C.java:%L) - %m%n"/>
+    </layout>
+  </appender>   
+
+	<logger name="com.stillwaterinsurance" additivity="false">
+        <level value="debug" />
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    
+    <logger name="org.apache" additivity="false">
+        <level value="warn" />
+        <appender-ref ref="miscFile" />
+    </logger>
+    
+    
+    <logger name="javax" additivity="false">
+        <level value="error" />
+        <appender-ref ref="miscFile" />
+    </logger>
+    
+    <logger name="com.sun" additivity="false">
+        <level value="error" />
+        <appender-ref ref="miscFile" />
+    </logger>  
+    
+    <root>
+        <priority value="warn" />
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="miscFile" />
+    </root>
+</log4j:configuration>

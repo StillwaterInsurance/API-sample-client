@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<Messages>
+	<Message>
+        <Name>ACORD</Name>
+    </Message>
+    <Groups>
+        <Group name="ACORDREQ">
+            <Element>SignonRq</Element>
+            <Element>InsuranceSvcRq</Element>
+        </Group>
+		<Group name="ACORDRSP">
+            <Element>SignonRs</Element>
+            <Element>InsuranceSvcRs</Element>		
+		</Group>
+		<Group name="INSURANCESVCRQ_CHOICE">
+			<Element>INSURANCESVCRQMSGS</Element>
+		</Group>
+		<Group name="INSURANCESVCRQMSGS">
+			<Element>HomePolicyModRq</Element>
+			<Element>PersAutoPolicyModRq</Element>
+			<Element>CommlPropertyPolicyModRq</Element>
+		</Group>
+		<Group name="INSURANCESVCRS_CHOICE">
+			<Element>INSURANCESVCRSMSGS</Element>
+		</Group>
+		<Group name="INSURANCESVCRSMSGS">
+			<Element>HomePolicyModRs</Element>
+			<Element>PersAutoPolicyModRs</Element>
+			<Element>CommlPropertyPolicyModRs</Element>
+		</Group>
+	</Groups>
+</Messages>
